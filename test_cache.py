@@ -7,7 +7,7 @@ import random
 import string
 
 from flask import Flask, render_template, render_template_string
-from flask.ext.cache import Cache, function_namespace, make_template_fragment_key
+from flask_cache import Cache, function_namespace, make_template_fragment_key
 
 if sys.version_info < (2,7):
     import unittest2 as unittest
@@ -679,7 +679,7 @@ if 'TRAVIS' in os.environ:
             cache.init_app(self.app, config=config)
             rconn = self.app.extensions['cache'][cache] \
                         ._client.connection_pool.get_connection('foo')
-            assert rconn.db == 1
+            assert rconn.db == 2 
 
 
     class CacheFilesystemTestCase(CacheTestCase):
