@@ -3,6 +3,7 @@ python:
  - "2.7"
  - "3.3"
 install:
+ - pip install -r requirements.txt
  - pip install coverage
  - pip install redis
  - "if [[ $TRAVIS_PYTHON_VERSION == 2.7* ]]; then pip install pylibmc; fi"
