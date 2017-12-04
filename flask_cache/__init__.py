@@ -459,7 +459,7 @@ class Cache(object):
 
             new_args.append(arg)
 
-        return tuple(new_args), {}
+        return tuple(new_args), sorted(kwargs.items()) 
 
     def memoize(self, timeout=None, make_name=None, unless=None):
         """
