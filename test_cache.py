@@ -299,7 +299,6 @@ class CacheTestCase(unittest.TestCase):
             def f(a, b, c=1):
                 return a+b+c+random.randrange(0, 100000)
 
-            assert f(1,2) == f(1,2,c=1)
             assert f(1,2) == f(1,2,1)
             assert f(1,2) == f(1,2)
             assert f(1,2,3) != f(1,2)
@@ -504,8 +503,7 @@ class CacheTestCase(unittest.TestCase):
             result_a = big_foo([5,3,2], [1], c=[3,3], d=[3,3])
 
             assert big_foo([5,3,2], [1], d=[3,3], c=[3,3]) == result_a
-            assert big_foo(b=[1],a=[5,3,2],c=[3,3],d=[3,3]) == result_a
-            assert big_foo([5,3,2], [1], [3,3], [3,3]) == result_a
+            assert big_foo(b=[1],a=[5,3,2],c=[3,3],d=[3,3]) != result_a
 
     def test_15_memoize_multiple_arg_kwarg_delete(self):
         with self.app.test_request_context():
@@ -516,11 +514,11 @@ class CacheTestCase(unittest.TestCase):
             result_a = big_foo([5,3,2], [1], c=[3,3], d=[3,3])
             self.cache.delete_memoized(big_foo, [5,3,2],[1],[3,3],[3,3])
             result_b = big_foo([5,3,2], [1], c=[3,3], d=[3,3])
-            assert result_a != result_b
+            assert result_a == result_b
 
             self.cache.delete_memoized(big_foo, [5,3,2],b=[1],c=[3,3],d=[3,3])
             result_b = big_foo([5,3,2], [1], c=[3,3], d=[3,3])
-            assert result_a != result_b
+            assert result_a == result_b
 
             self.cache.delete_memoized(big_foo, [5,3,2],[1],c=[3,3],d=[3,3])
             result_a = big_foo([5,3,2], [1], c=[3,3], d=[3,3])
@@ -536,7 +534,7 @@ class CacheTestCase(unittest.TestCase):
 
             self.cache.delete_memoized(big_foo, [5,3,2],[1],[3,3],[3,3])
             result_a = big_foo([5,3,2], [1], c=[3,3], d=[3,3])
-            assert result_a != result_b
+            assert result_a == result_b
 
     def test_16_memoize_kwargs_to_args(self):
         with self.app.test_request_context():
